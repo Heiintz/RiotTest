@@ -1,0 +1,59 @@
+Array
+(
+    [0] => Array
+        (
+            [reference_oc] => unerefcmdok
+            [ref_pm] => unerefdepm4
+            [ref_pm_technique] => unrefpmtechnique
+            [ref_prdm] => unerefprdm
+            [type_prdm] => untypeprdm
+            [date_cmd] => unedateprdm
+            [type_cmd] => init
+            [ref_prestation] => unerefprestation
+            [mode_attribution_positions] => unmodeattribution
+            [point_livraison_demande_prdm] => unpointlivraisonprdm
+            [ref_prestation_prdm] => unerefprestation
+            [offre] => uneoffre
+            [option] => uneoption
+            [champ_reserve1] => "OR 1;#
+            [champ_reserve2] => 
+            [champ_reserve3] => 
+            [champ_reserve4] => 
+            [reference_iftr] => 4XXN5IT9M0ZLOFRB1X718QSHPSJ1CA
+            [map_nropm_id] => 3
+            [oiCode] => FTEL
+            [oiId] => 65
+            [refinterne1] => V-ADDU
+            [refinterne2] => FTEL852619352
+            [clientCode] => FREE
+        )
+
+    [1] => Array
+        (
+            [reference_oc] => unerefcmdok
+            [ref_pm] => unerefdepm4
+            [ref_pm_technique] => unrefpmtechnique
+            [ref_prdm] => unerefprdm
+            [type_prdm] => untypeprdm
+            [date_cmd] => unedateprdm
+            [type_cmd] => init
+            [ref_prestation] => unerefprestation
+            [mode_attribution_positions] => unmodeattribution
+            [point_livraison_demande_prdm] => unpointlivraisonprdm
+            [ref_prestation_prdm] => unerefprestation
+            [offre] => uneoffre
+            [option] => uneoption
+            [champ_reserve1] => "OR 1;#
+            [champ_reserve2] => 
+            [champ_reserve3] => 
+            [champ_reserve4] => 
+            [reference_iftr] => 4XXN5IT9M0ZLOFRB1X718QSHPSJ1CA
+            [map_nropm_id] => 3
+            [oiCode] => FTEL
+            [oiId] => 65
+            [refinterne1] => V-ADDU
+            [refinterne2] => FTEL852619352
+            [clientCode] => FREE
+        )
+
+)
