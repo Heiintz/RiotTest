@@ -16,9 +16,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        ImapCron::class,
-        FacturationCovage::class,
-        FacturationOrange::class,
     ];
 
     /**
@@ -29,8 +26,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('export:FacturationCovage')->monthlyOn(1, '00:00');
-        $schedule->command('export:FacturationOrange')->monthlyOn(1, '00:00');
     }
 
     /**
@@ -40,8 +35,5 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
-
-        require base_path('routes/console.php');
     }
 }
