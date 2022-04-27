@@ -19,10 +19,11 @@ class RiotController extends Controller
             if($response) {
                 $results  = [
                     'maintenance' => [
+                        'title' =>  $response['maintenances'][0]['titles'][0]['content'] ?? null,
                         'created_at' => $response['maintenances'][0]['updates'][0]['created_at'] ?? null,
-                        'author' => $response['maintenances'][0]['updates'][0]['author'] ?? null,
-                        'message' => $response['maintenances'][0]['updates'][0]['translations'][4]['content'] ?? null,
                         'updated_at' => $response['maintenances'][0]['updates'][0]['updated_at'] ?? null,
+                        'author' => $response['maintenances'][0]['updates'][0]['author'] ?? null,
+                        'message' => $response['maintenances'][0]['updates'][0]['translations'][0]['content'] ?? null,
                         'maintenance_status' => $response['maintenances'][0]['maintenance_status'] ?? null,
                         'platform' => $response['maintenances'][0]['platforms'] ?? null,
                         'incident_severity' => $response['maintenances'][0]['incident_severity'] ?? null,
@@ -59,7 +60,7 @@ class RiotController extends Controller
 
     public function getChampion() {
         try{
-            $lastTuesday = date("Y-m-d 02:00:01",strtotime('last Tuesday'));
+            $lastTuesday = date("Y-m-d 02:00:00",strtotime('last Tuesday'));
             $nextTuesday = date("Y-m-d 01:59:59",strtotime('next Tuesday'));
             $rotation = (new Rotation)->whereBetween('created_at', [$lastTuesday, $nextTuesday])->get();
 
