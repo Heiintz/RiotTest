@@ -1,0 +1,117 @@
+{
+	"info": {
+		"_postman_id": "386a8b22-bf0d-46d8-b05e-5a0cc14f8156",
+		"name": "RIOT",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "LOGIN",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "trynda@riot.fr",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "password",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8088/api/v1/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET PLATFORM",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NjI5ZDk2My0zZTkxLTRkNzAtOTljOC02YTIzMjhhODY3NDEiLCJqdGkiOiI2YmM0OTg3ZDY0ODViYWUwNjUyMGI2ZTQyNDRkZjg4MWY1OWU5NjRkNjY4NWFlNjQ5MzFiNWQ5ZTJjMGQyYzJhNzM1ZDdlNGE4ZTE3NTk4YSIsImlhdCI6MTY1MTEyODU4NiwibmJmIjoxNjUxMTI4NTg2LCJleHAiOjE2NTEyMTQ5ODYsInN1YiI6IjEiLCJzY29wZXMiOlsiKiJdfQ.SR8gbad07BKInwpgaJ6ICj-VfDYcteBZ7GOngcY48XFz_wYlFh_Czl75BiRmlD-MF9FDhONEORWlxv2x147Mj1VB-ljdO8ZH2bTDYC-iSSAoJmMoln9u676NG2zSbw3yUP5Rx7KcdKt4qQrO0ToxinBqC-ehZHREXguCfHzdzglmDW6AkFQ-is8vO3Yr3cCbvEMhF09tS-5hjxCPdBDPdUFialovgwE7yAXRpESjT_GE1BL_Jjccxmyl1Fu0dVA2Ge58WPNOJgRJDFWxdKROOWeorr1vnGwfjTZTNHPCrlgmnZLJJrWVyqwzUtcFRghOLSx2jjkNsMARYoPevu_5w2ahXpRH8lF6YeqYhF1aZJ6sOkgK6sgNJ33hnVEC4FwlKQLeiS-el-b7-3C65yJtnt4PXX3H3bkMJyYn59cDQIFs34d28eqOW6uuvwveHkKEBDCqCRSRwzQijZk7a6-46yMVFnh671tWD91KV6sJb5ZTtnGknUCpejD1WR1qZZ_4MkVqff5n-GVtQfXCpReAomG5poOOv4Ur5uMKByCYvlNcEbadM1k_sGuu1a4S1aIzLTLQ7QrLRr9a2W03f4QD097lkKmfQpalIGmiVrJlkq9_mRICJkLGD1h867vs3BpPxFvmirqU5l1gB9_cGKeGu7oDSUB-ZqX-PvkmVKKqH-w",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/api/v1/get-platform",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"get-platform"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SAVE CHAMPION",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5NjI5ZDk2My0zZTkxLTRkNzAtOTljOC02YTIzMjhhODY3NDEiLCJqdGkiOiI2YmM0OTg3ZDY0ODViYWUwNjUyMGI2ZTQyNDRkZjg4MWY1OWU5NjRkNjY4NWFlNjQ5MzFiNWQ5ZTJjMGQyYzJhNzM1ZDdlNGE4ZTE3NTk4YSIsImlhdCI6MTY1MTEyODU4NiwibmJmIjoxNjUxMTI4NTg2LCJleHAiOjE2NTEyMTQ5ODYsInN1YiI6IjEiLCJzY29wZXMiOlsiKiJdfQ.SR8gbad07BKInwpgaJ6ICj-VfDYcteBZ7GOngcY48XFz_wYlFh_Czl75BiRmlD-MF9FDhONEORWlxv2x147Mj1VB-ljdO8ZH2bTDYC-iSSAoJmMoln9u676NG2zSbw3yUP5Rx7KcdKt4qQrO0ToxinBqC-ehZHREXguCfHzdzglmDW6AkFQ-is8vO3Yr3cCbvEMhF09tS-5hjxCPdBDPdUFialovgwE7yAXRpESjT_GE1BL_Jjccxmyl1Fu0dVA2Ge58WPNOJgRJDFWxdKROOWeorr1vnGwfjTZTNHPCrlgmnZLJJrWVyqwzUtcFRghOLSx2jjkNsMARYoPevu_5w2ahXpRH8lF6YeqYhF1aZJ6sOkgK6sgNJ33hnVEC4FwlKQLeiS-el-b7-3C65yJtnt4PXX3H3bkMJyYn59cDQIFs34d28eqOW6uuvwveHkKEBDCqCRSRwzQijZk7a6-46yMVFnh671tWD91KV6sJb5ZTtnGknUCpejD1WR1qZZ_4MkVqff5n-GVtQfXCpReAomG5poOOv4Ur5uMKByCYvlNcEbadM1k_sGuu1a4S1aIzLTLQ7QrLRr9a2W03f4QD097lkKmfQpalIGmiVrJlkq9_mRICJkLGD1h867vs3BpPxFvmirqU5l1gB9_cGKeGu7oDSUB-ZqX-PvkmVKKqH-w",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8088/api/v1/get-champion",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"get-champion"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

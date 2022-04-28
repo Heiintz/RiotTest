@@ -2,9 +2,6 @@
 
 namespace App\Console;
 
-use App\Console\Commands\ImapCron;
-use App\Console\Commands\Exports\Finance\FacturationCovage;
-use App\Console\Commands\Exports\Finance\FacturationOrange;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
