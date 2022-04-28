@@ -14,8 +14,7 @@ services:
     ports:
       - "3306:3306"
     networks:
-      api:
-        ipv4_address: 172.16.220.2
+      - api
 
   nginx:
     container_name: riotNginx
@@ -28,8 +27,7 @@ services:
       - ../:/var/www/html
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     networks:
-      api:
-        ipv4_address: 172.16.220.3
+      - api
   
   php:
     build:
@@ -41,8 +39,7 @@ services:
     ports:
       - "9000:9000"
     networks:
-      api:
-        ipv4_address: 172.16.220.4
+      - api
 
 networks:
   api:
