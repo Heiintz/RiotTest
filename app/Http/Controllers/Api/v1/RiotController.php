@@ -55,6 +55,13 @@ class RiotController extends Controller
         }
     }
 
+    /**
+     * Retrieves and saves champion rotation. 
+     * If a rotation has already been recorded for the week, returns the recorded information
+     * A rotation takes place every Tuesday at 2 am
+     *
+     * @return json rotation data
+     */
     public function getChampion() {
         try{
             $lastTuesday = date("Y-m-d 02:00:00",strtotime('last Tuesday'));
