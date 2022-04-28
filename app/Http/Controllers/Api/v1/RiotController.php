@@ -11,81 +11,88 @@ use App\Models\Api\V1\Rotation;
 
 class RiotController extends Controller
 {
+    /**
+     * Retrieval of information concerning maintenance and incidents
+     *
+     * @return json maintenances and incidents data
+     */
     public function getPlatform() {
         try{
             $response = Http::withHeaders([
                 'X-Riot-Token' => env('RIOT_KEY_API'),
-            ])->get('https://euw1.api.riotgames.com/lol/status/v4/platform-data', []);
-            if($response) {
-                $results  = [
-                    'maintenance' => [
-                        'title' =>  $response['maintenances'][0]['titles'][0]['content'] ?? null,
-                        'created_at' => $response['maintenances'][0]['updates'][0]['created_at'] ?? null,
-                        'updated_at' => $response['maintenances'][0]['updates'][0]['updated_at'] ?? null,
-                        'author' => $response['maintenances'][0]['updates'][0]['author'] ?? null,
-                        'message' => $response['maintenances'][0]['updates'][0]['translations'][0]['content'] ?? null,
-                        'maintenance_status' => $response['maintenances'][0]['maintenance_status'] ?? null,
-                        'platform' => $response['maintenances'][0]['platforms'] ?? null,
-                        'incident_severity' => $response['maintenances'][0]['incident_severity'] ?? null,
-                    ],
-                    'incidents' => $response['incidents']?? null,
+            ])->get(env('RIOT_URL_PLATFORM'));
+
+            // Returns the error that Riot sent
+            $checkResponseApi = $response['status']['status_code'] ?? null;
+            if($checkResponseApi) return $checkResponseApi;
+
+            $maintenances = [];
+            foreach($response['maintenances'] as $maintenance) {
+                $maintenances[] = [
+                    'title' =>  $maintenance['titles'][0]['content'] ?? null,
+                    'created_at' => $maintenance['updates'][0]['created_at'] ?? null,
+                    'updated_at' => $maintenance['updates'][0]['updated_at'] ?? null,
+                    'author' => $maintenance['updates'][0]['author'] ?? null,
+                    'message' => $maintenance['updates'][0]['translations'][0]['content'] ?? null,
+                    'maintenance_status' => $maintenance['maintenance_status'] ?? null,
+                    'platform' => $maintenance['platforms'] ?? null,
+                    'incident_severity' => $maintenance['incident_severity'] ?? null,
                 ];
-                return json_encode($results);
             }
-            return 'Aucune données disponibles.';
+            $results  = [
+                'maintenances' => $maintenances,
+                'incidents' => $response['incidents']?? null,
+            ];
+            return response()->json(['status' => 200, 'data' => $results]);
         } catch (\Exception $e) {
-            dd($e); // DEBUGG
+            //dd($e); // DEBUGG
             $logs = [
                 'date' => date('Y/m/d H:i:s'),
                 'source' => 'getPlatform',
                 'class' => explode("\\", get_class($this)),
                 'logProjectFolder' => 'controller'
             ];
-
             FileLog::log('error', $logs, $e);
+            return response()->json(['status' => 500, 'message' => 'An error has occurred']);
         }
-    }
-
-    public function getTuesdays($y,$m){ 
-        $date = "$y-$m-01";
-        $first_day = date('N',strtotime($date));
-        $first_day = 7 - $first_day + 3;
-        $last_day =  date('t',strtotime($date));
-        $days = array();
-        for($i=$first_day; $i<=$last_day; $i=$i+7 ){
-            $days[] = $i;
-        }
-        return  $days;
     }
 
     public function getChampion() {
         try{
             $lastTuesday = date("Y-m-d 02:00:00",strtotime('last Tuesday'));
             $nextTuesday = date("Y-m-d 01:59:59",strtotime('next Tuesday'));
-            $rotation = (new Rotation)->whereBetween('created_at', [$lastTuesday, $nextTuesday])->get();
 
+            // Check if a rotation is already saved and returns it
+            $rotation = (new Rotation)->whereBetween('created_at', [$lastTuesday, $nextTuesday])->get();
             if(count($rotation) > 0) {
-                return $rotation[0]->data;
+                return response()->json([
+                    'status' => 200, 
+                    'message' => "Rotation of the week already saved on{$rotation[0]->created_at}", 
+                    'data' => json_decode($rotation[0]->data)
+                ]);
             }
 
             $response = Http::withHeaders([
                 'X-Riot-Token' => env('RIOT_KEY_API'),
-            ])->get('https://euw1.api.riotgames.com/lol/platform/v3/champion-rotations', []);
+                ])->get(env('RIOT_URL_CHAMPION'));
+
+            $checkResponseApi = $response['status']['status_code'] ?? null;
+            if($checkResponseApi) return $checkResponseApi;
 
             (new Rotation)->insert([
                 'data' => $response,
             ]);
-            return $response;
+            return response()->json(['status' => 200,'data' => json_decode($response)]);
         } catch (\Exception $e) {
-            dd($e); // DEBUGG
+            //dd($e); // DEBUGG
             $logs = [
                 'date' => date('Y/m/d H:i:s'),
                 'source' => 'getChampion',
                 'class' => explode("\\", get_class($this)),
                 'logProjectFolder' => 'controller'
             ];
-
             FileLog::log('error', $logs, $e);
+            return response()->json(['status' => 500, 'message' => 'An error has occurred']);
         }
     }
 }
