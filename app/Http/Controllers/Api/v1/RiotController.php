@@ -65,7 +65,7 @@ class RiotController extends Controller
             if(count($rotation) > 0) {
                 return response()->json([
                     'status' => 200, 
-                    'message' => "Rotation of the week already saved on{$rotation[0]->created_at}", 
+                    'message' => "Rotation of the week already saved on {$rotation[0]->created_at}", 
                     'data' => json_decode($rotation[0]->data)
                 ]);
             }
