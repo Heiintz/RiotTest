@@ -12,7 +12,7 @@ services:
       - MYSQL_DATABASE=riot
       - TZ=Europe/Paris
     ports:
-      - "3306:3306"
+      - "3312:3306"
     networks:
       api:
         ipv4_address: 172.16.220.2
@@ -25,7 +25,7 @@ services:
     ports:
       - "8088:80"
     volumes:
-      - .:/var/www/html
+      - ../:/var/www/html
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     networks:
       api:
@@ -37,7 +37,7 @@ services:
       dockerfile: Dockerfile
     container_name: riotPhp
     volumes:
-      - .:/var/www/html
+      - ../:/var/www/html
     ports:
       - "9000:9000"
     networks:
