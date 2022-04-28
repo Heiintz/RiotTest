@@ -12,7 +12,7 @@ services:
       - MYSQL_DATABASE=riot
       - TZ=Europe/Paris
     ports:
-      - "3312:3306"
+      - "3306:3306"
     networks:
       api:
         ipv4_address: 172.16.220.2
