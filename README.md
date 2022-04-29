@@ -55,6 +55,11 @@ php artisan db:seed
 ```
 This will create the default user (trynda@riot.fr).
 
+# Riot Api
+Add your Riot Key Api in the .env file at :
+```
+RIOT_KEY_API
+```
 # Routes
 The different routes available can be imported into Postman via the file `docker/RIOT.postman_collection.json`
 
