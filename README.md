@@ -1,69 +1,213 @@
-## Installation
+# Installation
+Go to the docker folder and run the command :
 ```
-composer install
-npm install
-npm run dev
-php artisan key:generate (si besoin de regénéré la clé)
+make up
 ```
 
-## Remplir la base de données
+3 dockers will be launched:
+- riotMariadb: Database
+- riotPhp: Php / Laravel
+- riotNginx: Nginx server
 
+
+# Fill the database
+Two possible solutions:
+
+## Install via dump.sql file
+
+Launch the command :
+```
+mysql -urito -ppassword -h localhost -P 3307 riot < dump.sql
+```
+
+## Install via migrations
+
+Launch the command :
 ```
 php artisan migrate
-php artisan seed
 ```
+The following tables will be created:
+- users
+- rotation
+- failed_jobs
+- migrations
+- oauth_access_tokens
+- oauth_auth_codes
+- oauth_clients
+- oauth_personal_access_clients
+- oauth_refresh_tokens
 
-## Gestion de l'authentification:
+These tables are used for authentication via Passport as well as rotations.
 
+Run the command to install Passport :
 ```
 php artisan passport:install
 ```
-
-Prenez les infos données par la commande et mettez les dans le fichier .env:
+Once installed, take the information given by the command and put it in the .env file :
 ```
-PASSWORD_CLIENT_ID="le password client id donné"
-PASSWORD_CLIENT_SECRET="le password client secret donné"
-```
-
-## Export
-
-Pour faire fonctionner les exports (SQL => INTO OUTFILE), il faut entrer dans votre docker de la base de données et créer le folder de la variable EXPORT_FOLDER du .env
-
-``` 
-use Illuminate\Support\Facades\Artisan;
-Artisan::call('export:FacturationOrange'); 
-```
-Permet d'appeler un export. Sera utile pour rappeler un export sans chercher la requete en base
-
-# Création d'un utilisateur
-
-Pour créer un utilisateur en base, il faut se rendre dans 
-```
-/var/www/html/projectbobby/
+PASSWORD_CLIENT_ID="the given password client id"
+PASSWORD_CLIENT_SECRET="the client secret password given"
 ```
 
-Lancer la commande tinker
+Then run the command :
 ```
-php artisan tinker
+php artisan db:seed
+```
+This will create the default user (trynda@riot.fr).
+
+# Routes
+The different routes available can be imported into Postman via the file `docker/RIOT.postman_collection.json`
+
+# Authentification
+Route : `http://localhost:8088/api/v1/login`
+
+This route is used to authenticate using the following information:
+- email: `trynda@riot.fr`
+- password: `password`
+
+## Return of the request
+```
+{
+    "userEmail": "trynda@riot.fr",
+    "token": <GET_THE_TOKEN>,
+    "expiresIn": 86400,
+    "message": "You have been logged in"
+}
 ```
 
-Création dans la table users users_group_id à 1 = Finance, 2 = Opérationnel
+# Get Platform
+Route : `http://localhost:8088/api/v1/get-platform`
+
+This route allows to retrieve the status of the different services.
+
+## Headers
+You have to add in the header:
 ```
-DB::table('users')->insert(['name'=>'Test','email'=>'test@ifterritoires.fr','password'=>bcrypt('123456'), 'users_group_id'=>1]);
+Authorization: Bearer  <GET_THE_TOKEN>
 ```
 
-Récupérer l'ID de la table users ainsi créé puis lancer
+Without this header, you will not be allowed to access the route.
+
+## Return of the request
 ```
-DB::table('users_permissions')->insert([['users_id'=> USERS_ID,'permissions_id'=>1],['users_id'=> USERS_ID,'permissions_id'=>2],['users_id'=> USERS_ID,'permissions_id'=>3]]);
+{
+    "status": 200,
+    "data": {
+        "maintenances": [
+            {
+                "title": "Update Available",
+                "created_at": "2022-04-25T19:42:09.789016+00:00",
+                "updated_at": "2022-04-27T11:00:00+00:00",
+                "author": "Riot Games",
+                "message": "A new update is available! Make sure you have the latest version to crossplay with PC players!",
+                "maintenance_status": "scheduled",
+                "platform": [
+                    "android",
+                    "ios"
+                ],
+                "incident_severity": null
+            }
+        ],
+        "incidents": []
+    }
+}
 ```
 
-- permissions_id à 1 = Admin
-- permissions_id à 2 = Supervisor
-- permissions_id à 3 = Ticketing
+# Get Champion
+Route : `http://localhost:8088/api/v1/get-champion`
 
-Cela va créer les permissions pour l'utilisateur. Dans cet example, les 3 permissions seront créées. 
+This route allows you to retrieve the rotation of the champions of the week.
 
-Si on veut créer une seule permission, il faut lancer 
+Rotations are renewed every Tuesday at 2 a.m.
+
+If a rotation has already been saved, we return the data from the database without calling Riot's API.
+
+## Headers
+You have to add in the header:
 ```
-DB::table('users_permissions')->insert(['users_id'=> USERS_ID,'permissions_id'=>1]);
+Authorization: Bearer  <GET_THE_TOKEN>
+```
+
+Without this header, you will not be allowed to access the route.
+
+## Return of the request
+First rotation backup request:
+```
+{
+    "status": 200,
+    "data": {
+        "freeChampionIds": [
+            1,
+            10,
+            13,
+            45,
+            58,
+            83,
+            99,
+            101,
+            110,
+            115,
+            120,
+            121,
+            122,
+            163,
+            235,
+            236
+        ],
+        "freeChampionIdsForNewPlayers": [
+            222,
+            254,
+            427,
+            82,
+            131,
+            147,
+            54,
+            17,
+            18,
+            37
+        ],
+        "maxNewPlayerLevel": 10
+    }
+}
+```
+
+If a rotation request has already been saved:
+```
+{
+    "status": 200,
+    "message": "Rotation of the week already saved on 2022-04-29 10:11:03",
+    "data": {
+        "freeChampionIds": [
+            1,
+            10,
+            13,
+            45,
+            58,
+            83,
+            99,
+            101,
+            110,
+            115,
+            120,
+            121,
+            122,
+            163,
+            235,
+            236
+        ],
+        "freeChampionIdsForNewPlayers": [
+            222,
+            254,
+            427,
+            82,
+            131,
+            147,
+            54,
+            17,
+            18,
+            37
+        ],
+        "maxNewPlayerLevel": 10
+    }
+}
 ```
