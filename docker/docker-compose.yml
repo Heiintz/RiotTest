@@ -12,7 +12,7 @@ services:
       - MYSQL_DATABASE=riot
       - TZ=Europe/Paris
     ports:
-      - "3306:3306"
+      - "3307:3306"
     networks:
       - api
 
@@ -36,6 +36,7 @@ services:
     container_name: riotPhp
     volumes:
       - ../:/var/www/html
+    user: "${UID}:${GID}"
     ports:
       - "9000:9000"
     networks:
