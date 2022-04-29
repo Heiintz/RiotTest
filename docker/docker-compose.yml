@@ -7,7 +7,7 @@ services:
       - ./volumes/db:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_USER=root
+      - MYSQL_USER=rito
       - MYSQL_PASSWORD=password
       - MYSQL_DATABASE=riot
       - TZ=Europe/Paris
